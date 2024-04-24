@@ -38,12 +38,17 @@ export default function App() {
     setShowAddFriend( (show) => !show)
     
   }
+
+  function handleAddFriend(friend) {
+    setFriends((friends) => [...friends, friend])
+    setShowAddFriend(false);
+  }
   return (
 
     <div className="app">
       <div className="sidebar">
-    <FriendsList />
-    { showAddFriend && <FormAddFriend />}
+    <FriendsList friends={friends}/>
+    { showAddFriend && <FormAddFriend onAddFriend={handleAddFriend}/>}
     <Button onClick={handleShowAddFriend}>{ showAddFriend ? "Close" : "Add friend"}</Button>
     </div>
     <FormSplitBill />
@@ -52,17 +57,19 @@ export default function App() {
   )
 }
 
-function FriendsList() {
+function FriendsList({friends}) {
 
   return (
 
-      <>
-      <ul>{friends.map((friend) => (
+      
+      <ul>
+        {friends.map((friend) => (
 
       <Friend friend={friend} key={friend.id}/>
 
-       ))}</ul>
-      </>
+       ))}
+       </ul>
+      
   )
 }
 
@@ -73,12 +80,17 @@ return (
   <>
   <li>
   <img src={friend.image} alt={friend.name}/>
+  <h3>{friend.name}</h3>
   
   {friend.balance < 0 && 
-    <p className="red">You owe {friend.name} {Math.abs(friend.balance)}</p>
+    <p className="red">
+      You owe {friend.name} {Math.abs(friend.balance)}
+      </p>
   }
   {friend.balance > 0 && 
-    <p className="green">{friend.name} owes you {Math.abs(friend.balance)}</p>
+    <p className="green">
+      {friend.name} owes you {Math.abs(friend.balance)}
+      </p>
   }
   {friend.balance === 0 && 
     <p>You're even</p>
@@ -91,10 +103,10 @@ return (
 )
 }
 
-function FormAddFriend() {
+function FormAddFriend({onAddFriend}) {
 
-  const [name, setName] = useState ('');
-  const [image, setImage] = useState('https://i.pravatar.cc/48');
+  const [name, setName] = useState ("");
+  const [image, setImage] = useState("https://i.pravatar.cc/48");
 
   function handleSubmit(e) {
 
@@ -108,10 +120,12 @@ function FormAddFriend() {
 
       id,
       name,
-      image: `${image}? = {id}`,
+      image: `${image}?=${id}`,
       balance: 0,
    
     }
+
+    onAddFriend(newFriend);
 
     setName('')
     setImage("https://i.pravatar.cc/48")
