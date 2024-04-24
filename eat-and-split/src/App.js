@@ -61,6 +61,16 @@ return (
   <>
   <li>
   <img src={friend.image} alt={friend.name}/>
+  
+  {friend.balance < 0 && (
+    <p className="red">You own {friend.name} {Math.abs(friend.balance)}</p>
+  )}
+  {friend.balance > 0 && (
+    <p className="green">{friend.name} owns you {Math.abs(friend.balance)}</p>
+  )}
+  {friend.balance === 0 && (
+    <p>You're even</p>
+  )}
   <h3>{friend.name}</h3>
   <button className="button">Select</button>
   </li>
