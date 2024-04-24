@@ -44,21 +44,32 @@ export default function App() {
     setFriends((friends) => [...friends, friend])
     setShowAddFriend(false);
   }
+
+  function handleSelectedFriend(friend) {
+
+    setSelectedFriend(friend);
+  }
   return (
 
     <div className="app">
       <div className="sidebar">
-    <FriendsList friends={friends}/>
+
+    <FriendsList friends={friends} onSelect={handleSelectedFriend}/>
+
     { showAddFriend && <FormAddFriend onAddFriend={handleAddFriend}/>}
+
     <Button onClick={handleShowAddFriend}>{ showAddFriend ? "Close" : "Add friend"}</Button>
+
     </div>
+
     { selectedFriend && <FormSplitBill />}
+
     </div>
 
   )
 }
 
-function FriendsList({friends}) {
+function FriendsList({friends, onSelect}) {
 
   return (
 
@@ -66,7 +77,8 @@ function FriendsList({friends}) {
       <ul>
         {friends.map((friend) => (
 
-      <Friend friend={friend} key={friend.id}/>
+      <Friend friend={friend} key={friend.id}
+      onSelect={onSelect}/>
 
        ))}
        </ul>
@@ -74,7 +86,7 @@ function FriendsList({friends}) {
   )
 }
 
-function Friend({friend}) {
+function Friend({friend, onSelect}) {
 
 return (
 
@@ -96,7 +108,7 @@ return (
   {friend.balance === 0 && 
     <p>You're even</p>
   }
-  <Button>Select</Button>
+  <Button onClick={() => onSelect(friend)}>Select</Button>
   </li>
   
 
