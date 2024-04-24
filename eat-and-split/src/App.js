@@ -31,7 +31,9 @@ export default function App() {
     <div className="app">
       <div className="sidebar">
     <FriendsList />
-    <button className="button">Add a friend</button>
+    <FormAddFriend />
+    <Button>Add friend</Button>
+    <FormSplitBill />
     </div>
     </div>
 
@@ -62,18 +64,53 @@ return (
   <li>
   <img src={friend.image} alt={friend.name}/>
   
-  {friend.balance < 0 && (
-    <p className="red">You own {friend.name} {Math.abs(friend.balance)}</p>
-  )}
-  {friend.balance > 0 && (
-    <p className="green">{friend.name} owns you {Math.abs(friend.balance)}</p>
-  )}
-  {friend.balance === 0 && (
+  {friend.balance < 0 && 
+    <p className="red">You owe {friend.name} {Math.abs(friend.balance)}</p>
+  }
+  {friend.balance > 0 && 
+    <p className="green">{friend.name} owes you {Math.abs(friend.balance)}</p>
+  }
+  {friend.balance === 0 && 
     <p>You're even</p>
-  )}
-  <h3>{friend.name}</h3>
-  <button className="button">Select</button>
+  }
+  <Button>Select</Button>
   </li>
+  
+
   </>
 )
+}
+
+function Button ({children}) {
+
+  return ( <button className="button">{children}</button> )
+}
+
+function FormAddFriend() {
+
+  return (
+    
+    <form className="form-add-friend">
+      <label>Friend name</label>
+      <input type="text" />
+
+      <label>Image url</label>
+      <input type="text" />
+
+      <Button>Add</Button>
+    </form>
+  );
+}
+
+function FormSplitBill() {
+
+  return (  <form className="form-split-bill">
+
+<h2>Split a bill with x</h2>
+
+
+    </form>
+   
+
+  )
 }
