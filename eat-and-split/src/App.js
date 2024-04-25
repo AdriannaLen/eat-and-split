@@ -47,7 +47,7 @@ export default function App() {
 
   function handleSelectedFriend(friend) {
 
-    setSelectedFriend(friend);
+    setSelectedFriend((curr) => (curr?.id === friend.id ? null : friend));
   }
   return (
 
@@ -93,7 +93,7 @@ function FriendsList({friends, onSelect, selectedFriend}) {
 
 function Friend({friend, onSelect, selectedFriend}) {
 
-  const isSelected = selectedFriend.id === friend.id;
+  const isSelected = selectedFriend?.id === friend.id;
 return (
 
   <>
@@ -114,7 +114,7 @@ return (
   {friend.balance === 0 && 
     <p>You're even</p>
   }
-  <Button onClick={() => onSelect(friend)}>Select</Button>
+  <Button onClick={() => onSelect(friend)}>{isSelected ? "Close" : "Select"}</Button>
   </li>
   
 
