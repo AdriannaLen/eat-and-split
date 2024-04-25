@@ -54,7 +54,9 @@ export default function App() {
     <div className="app">
       <div className="sidebar">
 
-    <FriendsList friends={friends} onSelect={handleSelectedFriend}/>
+    <FriendsList friends={friends} 
+    onSelect={handleSelectedFriend} 
+    selectedFriend={selectedFriend}/>
 
     { showAddFriend && <FormAddFriend onAddFriend={handleAddFriend}/>}
 
@@ -69,7 +71,7 @@ export default function App() {
   )
 }
 
-function FriendsList({friends, onSelect}) {
+function FriendsList({friends, onSelect, selectedFriend}) {
 
   return (
 
@@ -77,8 +79,11 @@ function FriendsList({friends, onSelect}) {
       <ul>
         {friends.map((friend) => (
 
-      <Friend friend={friend} key={friend.id}
-      onSelect={onSelect}/>
+      <Friend 
+      friend={friend} 
+      key={friend.id}
+      onSelect={onSelect}
+      selectedFriend={selectedFriend}/>
 
        ))}
        </ul>
@@ -86,12 +91,13 @@ function FriendsList({friends, onSelect}) {
   )
 }
 
-function Friend({friend, onSelect}) {
+function Friend({friend, onSelect, selectedFriend}) {
 
+  const isSelected = selectedFriend.id === friend.id;
 return (
 
   <>
-  <li>
+  <li className={isSelected ? "selected" : ""}>
   <img src={friend.image} alt={friend.name}/>
   <h3>{friend.name}</h3>
   
@@ -176,13 +182,13 @@ function FormSplitBill({selectedFriend}) {
       <label>Your expanse</label>
       <input type="text" />
 
-      <label>Friends expanse</label>
+      <label>{selectedFriend.name}'s expanse</label>
       <input type="text" disabled/>
 
 <label>Who is paying the bill?</label>
   <select>
     <option value="user">You</option>
-    <option value="friend">X</option>
+    <option value="friend">{selectedFriend.name}</option>
   </select>
 
       <Button>Split Bill</Button>
